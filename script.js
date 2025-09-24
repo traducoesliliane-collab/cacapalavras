@@ -16,15 +16,29 @@ let qtdPalavras = 5;
 let nivelAtual = "facil"; 
 let rodadaNivel = 0;       
 let totalRodadasPorNivel = 3;
+let direcoes = [
+  [0,1],   // horizontal
+  [1,0],   // vertical
+  [1,1],   // diagonal descendente
+  [-1,1]   // diagonal ascendente
+];
+let direcoesNome = [
+  "horizontal",
+  "vertical",
+  "diagonalDesc",
+  "diagonalAsc"
+];
 
-// Começar o jogo
 function começarJogo(){
   document.getElementById("menu").style.display="none";
   document.getElementById("btnVerificar").style.display="inline-block";
+  document.getElementById("btnProximaRodada").style.display="none";
+  document.getElementById("btnReplay").style.display="none";
+  rodadaNivel = 0;
+  nivelAtual = "facil";
   iniciarRodada();
 }
 
-// Inicia uma rodada no nível atual
 function iniciarRodada(){
   rodadaNivel++;
   if(nivelAtual==="facil"){tamanho=8;qtdPalavras=5;}
@@ -35,8 +49,35 @@ function iniciarRodada(){
   palavrasSelecionadas=[];
   posicoesPalavras=[];
 
-  const sorteadas = [...palavrasHalloween].sort(()=>0.5-Math.random()).slice(0,qtdPalavras);
-  sorteadas.forEach(p=>inserirPalavra(p));
+  // Selecionar ao menos uma palavra para cada direção, se possível
+  let palavrasParaUsar = [...palavrasHalloween].sort(()=>0.5-Math.random());
+  let palavrasPorDirecao = [];
+  for (let i = 0; i < direcoes.length; i++) {
+    if (palavrasParaUsar.length > 0) {
+      palavrasPorDirecao.push(palavrasParaUsar.pop());
+    }
+  }
+  let restantes = palavrasParaUsar.slice(0, qtdPalavras - palavrasPorDirecao.length);
+  let sorteadas = palavrasPorDirecao.concat(restantes);
+
+  // Embaralhar as palavras finais
+  sorteadas = sorteadas.sort(()=>0.5-Math.random());
+
+  // Inserir cada palavra, garantindo pelo menos uma por direção diferente
+  let direcoesUsadas = [];
+  for (let i = 0; i < sorteadas.length; i++) {
+    let palavra = sorteadas[i];
+    let direcao;
+    if (i < direcoes.length) {
+      direcao = direcoes[i];
+      direcoesUsadas.push(i);
+    } else {
+      // Escolher direção aleatória
+      direcao = direcoes[Math.floor(Math.random()*direcoes.length)];
+    }
+    inserirPalavra(palavra, direcao);
+  }
+
   preencherLetrasAleatorias();
   renderizarGrade();
 
@@ -44,18 +85,18 @@ function iniciarRodada(){
   document.getElementById("resultado").innerText="";
   document.getElementById("statusNivel").innerText = `Nível: ${nivelAtual.charAt(0).toUpperCase() + nivelAtual.slice(1)}`;
   document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel} / ${totalRodadasPorNivel}`;
+  document.getElementById("btnProximaRodada").style.display = "none";
+  document.getElementById("btnReplay").style.display = "none";
+  document.getElementById("btnVerificar").style.display = "inline-block";
 }
 
-// Insere palavra no grid com mix de direções
-function inserirPalavra(palavra){
-  const direcoes=[[0,1],[1,0],[1,1],[-1,1]];
-  let colocado=false;
-
-  const direcoesEmbaralhadas = direcoes.sort(()=>0.5-Math.random());
-
+// Insere palavra no grid, se possível na direção desejada
+function inserirPalavra(palavra, direcaoPreferida=null){
+  let direcoesParaTentar = direcaoPreferida ? [direcaoPreferida].concat(direcoes.filter(d=>d!==direcaoPreferida)) : [...direcoes];
+  let colocado = false;
   while(!colocado){
-    for(let d=0; d<direcoesEmbaralhadas.length; d++){
-      const dir = direcoesEmbaralhadas[d];
+    for(let d=0; d<direcoesParaTentar.length; d++){
+      const dir = direcoesParaTentar[d];
       const linha = Math.floor(Math.random()*tamanho);
       const col = Math.floor(Math.random()*tamanho);
       let coords=[];
@@ -127,31 +168,40 @@ function verificarRespostas(){
   resultadoEl.innerText=`Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if(acertos===palavrasSelecionadas.length){
-    setTimeout(()=>{
-      if(rodadaNivel<totalRodadasPorNivel){
-        resultadoEl.innerText+=`\nParabéns! Próximo caça-palavras do nível ${nivelAtual}`;
-        iniciarRodada();
-      } else {
-        if(nivelAtual==="facil") nivelAtual="medio";
-        else if(nivelAtual==="medio") nivelAtual="dificil";
-        else nivelAtual="fim";
-
-        rodadaNivel=0;
-
-        if(nivelAtual==="fim"){
-          resultadoEl.innerText+="\nParabéns! Você terminou todos os níveis!";
-          btn.style.display="none";
-          document.getElementById("btnReplay").style.display="inline-block";
-        } else {
-          resultadoEl.innerText+=`\nParabéns! Agora você passa para o nível ${nivelAtual}`;
-          iniciarRodada();
-        }
-      }
-      btn.disabled = false;
-    }, 200);
+    // Acertou todas → exibe botão Próxima Rodada ou Replay
+    if(nivelAtual==="fim" || (nivelAtual==="dificil" && rodadaNivel===totalRodadasPorNivel)){
+      resultadoEl.innerText+="\nParabéns! Você terminou todos os níveis!";
+      btn.style.display="none";
+      document.getElementById("btnReplay").style.display="inline-block";
+      document.getElementById("btnProximaRodada").style.display="none";
+    } else {
+      resultadoEl.innerText+=`\nParabéns! Clique em "Próxima Rodada" para continuar!`;
+      btn.style.display="none";
+      document.getElementById("btnProximaRodada").style.display="inline-block";
+    }
   } else {
+    // Errou → não trava, apenas mostra a mensagem
     resultadoEl.innerText+="\nVocê precisa acertar todas as palavras para avançar!";
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
-    btn.disabled = false;
+    btn.disabled = false; // libera botão para tentar novamente
+  }
+}
+
+function proximaRodada(){
+  // Avança rodada ou nível
+  if(rodadaNivel<totalRodadasPorNivel){
+    iniciarRodada();
+  } else {
+    if(nivelAtual==="facil") nivelAtual="medio";
+    else if(nivelAtual==="medio") nivelAtual="dificil";
+    else nivelAtual="fim";
+    rodadaNivel=0;
+    if(nivelAtual==="fim"){
+      document.getElementById("resultado").innerText = "Parabéns! Você terminou todos os níveis!";
+      document.getElementById("btnProximaRodada").style.display="none";
+      document.getElementById("btnReplay").style.display="inline-block";
+    } else {
+      iniciarRodada();
+    }
   }
 }
