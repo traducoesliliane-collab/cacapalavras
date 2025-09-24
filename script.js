@@ -51,7 +51,6 @@ function inserirPalavra(palavra){
   const direcoes=[[0,1],[1,0],[1,1],[-1,1]]; // horizontal, vertical, diagonal desc, diagonal asc
   let colocado=false;
 
-  // Embaralha direções para cada palavra
   const direcoesEmbaralhadas = direcoes.sort(()=>0.5-Math.random());
 
   while(!colocado){
@@ -109,6 +108,9 @@ function renderizarGrade(){
 
 // Verifica respostas e atualiza mensagem na tela
 function verificarRespostas(){
+  const btn = document.getElementById("btnVerificar");
+  btn.disabled = true; // bloqueia botão temporariamente
+
   const selecionadas = Array.from(
     document.querySelectorAll(".cell.selected")
   ).map(cell=>[parseInt(cell.dataset.row),parseInt(cell.dataset.col)]);
@@ -126,31 +128,37 @@ function verificarRespostas(){
   resultadoEl.innerText=`Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if(acertos===palavrasSelecionadas.length){
-    // Acertou todas → próxima rodada ou nível
-    if(rodadaNivel<totalRodadasPorNivel){
-      resultadoEl.innerText+=`\nParabéns! Próximo caça-palavras do nível ${nivelAtual}`;
-      iniciarRodada();
-    } else {
-      // Avança nível
-      if(nivelAtual==="facil") nivelAtual="medio";
-      else if(nivelAtual==="medio") nivelAtual="dificil";
-      else nivelAtual="fim";
-
-      rodadaNivel=0;
-
-      if(nivelAtual==="fim"){
-        resultadoEl.innerText+="\nParabéns! Você terminou todos os níveis!";
-        document.getElementById("btnVerificar").style.display="none";
-        document.getElementById("btnReplay").style.display="inline-block";
-      } else {
-        resultadoEl.innerText+=`\nParabéns! Agora você passa para o nível ${nivelAtual}`;
+    // Acertou todas → próxima rodada ou nível com delay
+    setTimeout(()=>{
+      if(rodadaNivel<totalRodadasPorNivel){
+        resultadoEl.innerText+=`\nParabéns! Próximo caça-palavras do nível ${nivelAtual}`;
         iniciarRodada();
+      } else {
+        if(nivelAtual==="facil") nivelAtual="medio";
+        else if(nivelAtual==="medio") nivelAtual="dificil";
+        else nivelAtual="fim";
+
+        rodadaNivel=0;
+
+        if(nivelAtual==="fim"){
+          resultadoEl.innerText+="\nParabéns! Você terminou todos os níveis!";
+          btn.style.display="none";
+          document.getElementById("btnReplay").style.display="inline-block";
+        } else {
+          resultadoEl.innerText+=`\nParabéns! Agora você passa para o nível ${nivelAtual}`;
+          iniciarRodada();
+        }
       }
-    }
+      btn.disabled = false;
+    }, 200); // 200ms de delay
   } else {
     // Errou → não trava, apenas mostra a mensagem
     resultadoEl.innerText+="\nVocê precisa acertar todas as palavras para avançar!";
-    // Remove seleção para o jogador tentar novamente
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
+    btn.disabled = false; // libera botão para tentar novamente
   }
 }
+
+  }
+}
+
