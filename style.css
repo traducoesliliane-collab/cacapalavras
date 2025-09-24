@@ -24,6 +24,7 @@ button {
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.2s;
+  display: inline-block; /* garante que sempre seja inline-block quando visível */
 }
 
 button:hover {
@@ -72,4 +73,11 @@ button:hover {
   margin: 5px 0;
   font-weight: bold;
   text-shadow: 1px 1px 2px black;
+}
+
+/* Garante que os botões ocultos fiquem invisíveis */
+#btnVerificar[style*="display:none"],
+#btnProximaRodada[style*="display:none"],
+#btnReplay[style*="display:none"] {
+  display: none !important;
 }
