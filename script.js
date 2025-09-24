@@ -48,7 +48,7 @@ function iniciarRodada(){
 
 // Insere palavra no grid com mix de direções
 function inserirPalavra(palavra){
-  const direcoes=[[0,1],[1,0],[1,1],[-1,1]]; // horizontal, vertical, diagonal desc, diagonal asc
+  const direcoes=[[0,1],[1,0],[1,1],[-1,1]];
   let colocado=false;
 
   const direcoesEmbaralhadas = direcoes.sort(()=>0.5-Math.random());
@@ -106,10 +106,9 @@ function renderizarGrade(){
   }
 }
 
-// Verifica respostas e atualiza mensagem na tela
 function verificarRespostas(){
   const btn = document.getElementById("btnVerificar");
-  btn.disabled = true; // bloqueia botão temporariamente
+  btn.disabled = true;
 
   const selecionadas = Array.from(
     document.querySelectorAll(".cell.selected")
@@ -128,7 +127,6 @@ function verificarRespostas(){
   resultadoEl.innerText=`Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if(acertos===palavrasSelecionadas.length){
-    // Acertou todas → próxima rodada ou nível com delay
     setTimeout(()=>{
       if(rodadaNivel<totalRodadasPorNivel){
         resultadoEl.innerText+=`\nParabéns! Próximo caça-palavras do nível ${nivelAtual}`;
@@ -150,13 +148,10 @@ function verificarRespostas(){
         }
       }
       btn.disabled = false;
-    }, 200); // 200ms de delay
+    }, 200);
   } else {
-    // Errou → não trava, apenas mostra a mensagem
     resultadoEl.innerText+="\nVocê precisa acertar todas as palavras para avançar!";
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
-    btn.disabled = false; // libera botão para tentar novamente
+    btn.disabled = false;
   }
 }
-
-
