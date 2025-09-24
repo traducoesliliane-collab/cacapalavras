@@ -1,18 +1,25 @@
-// Definição dos grids fixos para cada rodada e nível
-// Cada palavra tem: palavra, direção ([dx,dy]), início ([linha,coluna])
+// Função para determinar o tamanho do grid conforme o nível
+function getGridSize(nivel) {
+  if (nivel === "facil") return 15;
+  if (nivel === "medio") return 17;
+  if (nivel === "dificil") return 20;
+  return 15;
+}
+
+// Rodadas fixas, com palavras pequenas no fácil e grandes no difícil
 const rodadasFixas = {
   facil: [
     [
-      { palavra: "GATO", direcao: [0,1], inicio: [0,0] },
-      { palavra: "VELA", direcao: [1,0], inicio: [3,7] },
-      { palavra: "MUMIA", direcao: [1,1], inicio: [5,2] },
-      { palavra: "NOITE", direcao: [0,1], inicio: [7,8] },
-      { palavra: "ARANHA", direcao: [1,0], inicio: [10,10] },
-      { palavra: "CORVO", direcao: [0,1], inicio: [14,6] }
+      { palavra: "GATO", direcao: [0,1], inicio: [0,0] },         // horizontal
+      { palavra: "VELA", direcao: [1,0], inicio: [2,9] },         // vertical
+      { palavra: "MUMIA", direcao: [1,1], inicio: [4,4] },        // diagonal desc
+      { palavra: "NOITE", direcao: [0,1], inicio: [7,8] },        // horizontal
+      { palavra: "ARANHA", direcao: [1,0], inicio: [10,10] },     // vertical
+      { palavra: "CORVO", direcao: [0,1], inicio: [14,6] }        // horizontal
     ],
     [
       { palavra: "TERROR", direcao: [0,1], inicio: [2,2] },
-      { palavra: "LOBISOMEM", direcao: [1,1], inicio: [0,4] },
+      { palavra: "LOBISOMEM", direcao: [1,1], inicio: [0,8] },
       { palavra: "CAVEIRA", direcao: [1,0], inicio: [6,12] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [10,0] },
       { palavra: "ESPIRITO", direcao: [1,1], inicio: [5,6] },
@@ -91,7 +98,6 @@ const rodadasFixas = {
 };
 
 let grid = [];
-let tamanho = 8;
 let palavrasSelecionadas = [];
 let posicoesPalavras = [];
 let nivelAtual = "facil";
@@ -110,11 +116,8 @@ function começarJogo() {
 
 function iniciarRodada() {
   rodadaNivel++;
-  if (nivelAtual === "facil") tamanho = 15;
-  else if (nivelAtual === "medio") tamanho = 17;
-  else if (nivelAtual === "dificil") tamanho = 20;
-
-  preencherGradeFixa(nivelAtual, rodadaNivel - 1);
+  let tamanho = getGridSize(nivelAtual);
+  preencherGradeFixa(nivelAtual, rodadaNivel - 1, tamanho);
 
   document.getElementById("palavrasRestantes").innerText = `Palavras: ${palavrasSelecionadas.join(", ")}`;
   document.getElementById("resultado").innerText = "";
@@ -125,7 +128,7 @@ function iniciarRodada() {
   document.getElementById("btnVerificar").style.display = "inline-block";
 }
 
-function preencherGradeFixa(nivel, rodada) {
+function preencherGradeFixa(nivel, rodada, tamanho) {
   grid = Array.from({ length: tamanho }, () => Array(tamanho).fill(""));
   palavrasSelecionadas = [];
   posicoesPalavras = [];
@@ -135,20 +138,28 @@ function preencherGradeFixa(nivel, rodada) {
     let coords = [];
     let [dx, dy] = direcao;
     let [x, y] = inicio;
+    let cabe = true;
     for (let i = 0; i < palavra.length; i++) {
       let r = x + i * dx;
       let c = y + i * dy;
-      grid[r][c] = palavra[i];
+      if (r < 0 || r >= tamanho || c < 0 || c >= tamanho) {
+        console.error(`Palavra "${palavra}" sai do grid em [${r},${c}] no nível ${nivel}, rodada ${rodada + 1}.`);
+        cabe = false;
+        break;
+      }
       coords.push([r, c]);
     }
-    posicoesPalavras.push({ palavra, posicoes: coords });
-    palavrasSelecionadas.push(palavra);
+    if (cabe) {
+      coords.forEach((pos, i) => grid[pos[0]][pos[1]] = palavra[i]);
+      posicoesPalavras.push({ palavra, posicoes: coords });
+      palavrasSelecionadas.push(palavra);
+    }
   });
-  preencherLetrasAleatorias();
-  renderizarGrade();
+  preencherLetrasAleatorias(tamanho);
+  renderizarGrade(tamanho);
 }
 
-function preencherLetrasAleatorias() {
+function preencherLetrasAleatorias(tamanho) {
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (let r = 0; r < tamanho; r++) {
     for (let c = 0; c < tamanho; c++) {
@@ -157,7 +168,7 @@ function preencherLetrasAleatorias() {
   }
 }
 
-function renderizarGrade() {
+function renderizarGrade(tamanho) {
   const container = document.getElementById("grid");
   container.innerHTML = "";
   container.style.gridTemplateColumns = `repeat(${tamanho},40px)`;
@@ -195,22 +206,20 @@ function verificarRespostas() {
   resultadoEl.innerText = `Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if (acertos === palavrasSelecionadas.length) {
-    // Acertou todas → exibe botão Próxima Rodada ou Replay
     if (nivelAtual === "fim" || (nivelAtual === "dificil" && rodadaNivel === totalRodadasPorNivel)) {
       resultadoEl.innerText += "\nParabéns! Você terminou todos os níveis!";
       btn.style.display = "none";
       document.getElementById("btnReplay").style.display = "inline-block";
       document.getElementById("btnProximaRodada").style.display = "none";
     } else {
-      resultadoEl.innerText += `\nParabéns! Clique em \"Próxima Rodada\" para continuar!`;
+      resultadoEl.innerText += `\nParabéns! Clique em "Próxima Rodada" para continuar!`;
       btn.style.display = "none";
       document.getElementById("btnProximaRodada").style.display = "inline-block";
     }
   } else {
-    // Errou → não trava, apenas mostra a mensagem
     resultadoEl.innerText += "\nVocê precisa acertar todas as palavras para avançar!";
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
-    btn.disabled = false; // libera botão para tentar novamente
+    btn.disabled = false;
   }
 }
 
@@ -231,6 +240,3 @@ function proximaRodada() {
     }
   }
 }
-
-
-
