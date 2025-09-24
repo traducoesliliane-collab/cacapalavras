@@ -8,65 +8,65 @@ function getGridSize(nivel) {
 const rodadasFixas = {
   facil: [
     [
-      { palavra: "GATO", direcao: [0,1], inicio: [0,0] },        // horizontal
-      { palavra: "VELA", direcao: [1,0], inicio: [2,5] },        // vertical
-      { palavra: "MUMIA", direcao: [1,1], inicio: [0,6] },       // diagonal desc
-      { palavra: "NOITE", direcao: [0,1], inicio: [5,0] },       // horizontal
-      { palavra: "ARANHA", direcao: [1,0], inicio: [1,9] }       // vertical
+      { palavra: "GATO", direcao: [0,1], inicio: [0,0] },
+      { palavra: "VELA", direcao: [1,0], inicio: [2,5] },
+      { palavra: "MUMIA", direcao: [1,1], inicio: [0,4] },
+      { palavra: "NOITE", direcao: [0,1], inicio: [5,0] },
+      { palavra: "RATO", direcao: [1,0], inicio: [1,9] }
     ],
     [
       { palavra: "TERROR", direcao: [0,1], inicio: [0,2] },
-      { palavra: "CAVEIRA", direcao: [1,0], inicio: [3,10] },
+      { palavra: "OSSOS", direcao: [1,0], inicio: [3,7] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [7,0] },
-      { palavra: "ESPIRITO", direcao: [1,1], inicio: [0,7] },
-      { palavra: "DRACULA", direcao: [0,1], inicio: [9,5] }
+      { palavra: "BRUXA", direcao: [1,1], inicio: [0,5] },
+      { palavra: "DRACULA", direcao: [0,1], inicio: [9,1] }
     ],
     [
       { palavra: "ZUMBI", direcao: [1,0], inicio: [0,8] },
-      { palavra: "BRUXA", direcao: [1,1], inicio: [2,0] },
+      { palavra: "FOGAO", direcao: [1,1], inicio: [2,0] },
       { palavra: "SANGUE", direcao: [0,1], inicio: [6,3] },
-      { palavra: "CRIPTA", direcao: [1,0], inicio: [4,6] },
-      { palavra: "FEITICO", direcao: [1,1], inicio: [0,2] }
+      { palavra: "CRIPTA", direcao: [1,0], inicio: [4,0] },
+      { palavra: "MORTE", direcao: [1,1], inicio: [0,2] }
     ]
   ],
   medio: [
     [
       { palavra: "MALDICAO", direcao: [0,1], inicio: [0,0] },
       { palavra: "MONSTRO", direcao: [1,1], inicio: [4,2] },
-      { palavra: "FANTASMA", direcao: [1,0], inicio: [7,10] },
-      { palavra: "URUCUBACA", direcao: [0,1], inicio: [10,0] },
-      { palavra: "ABOBORA", direcao: [1,0], inicio: [2,12] },
-      { palavra: "ESCURIDAO", direcao: [1,1], inicio: [6,4] },
+      { palavra: "FANTASMA", direcao: [1,0], inicio: [7,5] },
+      { palavra: "BRUXARIA", direcao: [0,1], inicio: [10,0] },
+      { palavra: "ABOBORA", direcao: [1,0], inicio: [2,7] },
+      { palavra: "SOMBRA", direcao: [1,1], inicio: [6,4] },
       { palavra: "LENDA", direcao: [1,0], inicio: [14,7] }
     ],
     [
-      { palavra: "LOBISOMEM", direcao: [1,1], inicio: [0,5] },
+      { palavra: "LOBO", direcao: [1,1], inicio: [0,5] },
       { palavra: "CALDEIRAO", direcao: [0,1], inicio: [6,0] },
-      { palavra: "CEMITERIO", direcao: [1,0], inicio: [9,6] },
-      { palavra: "CAVEIRA", direcao: [0,1], inicio: [14,4] },
+      { palavra: "TUMULO", direcao: [1,0], inicio: [9,3] },
+      { palavra: "OSSOS", direcao: [0,1], inicio: [14,4] },
       { palavra: "VELA", direcao: [1,0], inicio: [13,10] },
-      { palavra: "FEITICO", direcao: [1,1], inicio: [8,8] },
+      { palavra: "FANTASMA", direcao: [1,1], inicio: [8,8] },
       { palavra: "ABISMO", direcao: [0,1], inicio: [12,13] }
     ],
     [
-      { palavra: "FANTASMA", direcao: [0,1], inicio: [2,0] },
+      { palavra: "ZUMBI", direcao: [0,1], inicio: [2,0] },
       { palavra: "SANGUE", direcao: [1,0], inicio: [4,12] },
-      { palavra: "CEMITERIO", direcao: [1,1], inicio: [6,2] },
+      { palavra: "TUMULO", direcao: [1,1], inicio: [6,2] },
       { palavra: "MONSTRO", direcao: [0,1], inicio: [13,5] },
-      { palavra: "ESPIRITO", direcao: [1,0], inicio: [11,0] },
-      { palavra: "URUCUBACA", direcao: [0,1], inicio: [9,9] },
+      { palavra: "ESPANTO", direcao: [1,0], inicio: [11,0] },
+      { palavra: "BRUXA", direcao: [0,1], inicio: [9,9] },
       { palavra: "ABOBORA", direcao: [1,1], inicio: [3,11] }
     ]
   ],
   dificil: [
     [
       { palavra: "CALDEIRAO", direcao: [1,1], inicio: [0,0] },
-      { palavra: "LOBISOMEM", direcao: [0,1], inicio: [15,0] },
-      { palavra: "ESCURIDAO", direcao: [1,0], inicio: [4,9] },
-      { palavra: "URUCUBACA", direcao: [0,1], inicio: [11,12] },
+      { palavra: "LOBO", direcao: [0,1], inicio: [15,0] },
+      { palavra: "SOMBRA", direcao: [1,0], inicio: [4,9] },
+      { palavra: "ALMAS", direcao: [0,1], inicio: [11,12] },
       { palavra: "ABOBORA", direcao: [1,0], inicio: [12,4] },
-      { palavra: "CEMITERIO", direcao: [1,1], inicio: [7,6] },
-      { palavra: "MONSTRO", direcao: [0,1], inicio: [16,13] },
+      { palavra: "TUMULO", direcao: [1,1], inicio: [7,6] },
+      { palavra: "MONSTRO", direcao: [0,1], inicio: [16,6] },
       { palavra: "ASSOMBRO", direcao: [1,0], inicio: [2,14] }
     ],
     [
@@ -74,20 +74,20 @@ const rodadasFixas = {
       { palavra: "ESPIRITO", direcao: [0,1], inicio: [0,12] },
       { palavra: "CALDEIRAO", direcao: [1,0], inicio: [13,5] },
       { palavra: "ABOBORA", direcao: [0,1], inicio: [10,0] },
-      { palavra: "CEMITERIO", direcao: [1,1], inicio: [6,9] },
-      { palavra: "LOBISOMEM", direcao: [1,0], inicio: [2,16] },
-      { palavra: "ESCURIDAO", direcao: [0,1], inicio: [17,3] },
-      { palavra: "URUCUBACA", direcao: [1,1], inicio: [14,7] }
+      { palavra: "TUMULO", direcao: [1,1], inicio: [6,9] },
+      { palavra: "LOBO", direcao: [1,0], inicio: [2,8] },
+      { palavra: "TREVAS", direcao: [0,1], inicio: [15,3] },
+      { palavra: "ALMAS", direcao: [1,1], inicio: [14,7] }
     ],
     [
       { palavra: "FANTASMA", direcao: [1,1], inicio: [8,3] },
       { palavra: "ESPIRITO", direcao: [0,1], inicio: [13,0] },
       { palavra: "CALDEIRAO", direcao: [1,0], inicio: [16,6] },
-      { palavra: "ABOBORA", direcao: [0,1], inicio: [16,14] },
-      { palavra: "CEMITERIO", direcao: [1,1], inicio: [12,5] },
-      { palavra: "LOBISOMEM", direcao: [0,1], inicio: [15,9] },
-      { palavra: "ESCURIDAO", direcao: [1,0], inicio: [3,0] },
-      { palavra: "URUCUBACA", direcao: [0,1], inicio: [17,10] }
+      { palavra: "ABOBORA", direcao: [0,1], inicio: [16,10] },
+      { palavra: "TUMULO", direcao: [1,1], inicio: [12,5] },
+      { palavra: "LOBO", direcao: [0,1], inicio: [8,14] },
+      { palavra: "ASSOMBRO", direcao: [1,0], inicio: [3,0] },
+      { palavra: "MORTE", direcao: [0,1], inicio: [10,14] }
     ]
   ]
 };
@@ -235,4 +235,5 @@ function proximaRodada() {
     }
   }
 }
+
 
