@@ -46,31 +46,37 @@ function iniciarRodada(){
   document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel} / ${totalRodadasPorNivel}`;
 }
 
-// Insere palavra no grid e salva posições
+// Insere palavra no grid com mix de direções
 function inserirPalavra(palavra){
-  const direcoes=[[0,1],[1,0],[1,1],[-1,1]];
+  const direcoes=[[0,1],[1,0],[1,1],[-1,1]]; // horizontal, vertical, diagonal desc, diagonal asc
   let colocado=false;
 
+  // Embaralha direções para cada palavra
+  const direcoesEmbaralhadas = direcoes.sort(()=>0.5-Math.random());
+
   while(!colocado){
-    const dir=direcoes[Math.floor(Math.random()*direcoes.length)];
-    const linha=Math.floor(Math.random()*tamanho);
-    const col=Math.floor(Math.random()*tamanho);
-    let coords=[];
-    let cabe=true;
+    for(let d=0; d<direcoesEmbaralhadas.length; d++){
+      const dir = direcoesEmbaralhadas[d];
+      const linha = Math.floor(Math.random()*tamanho);
+      const col = Math.floor(Math.random()*tamanho);
+      let coords=[];
+      let cabe=true;
 
-    for(let i=0;i<palavra.length;i++){
-      const r=linha+i*dir[0];
-      const c=col+i*dir[1];
-      if(r<0||r>=tamanho||c<0||c>=tamanho){cabe=false;break;}
-      if(grid[r][c]!=""&&grid[r][c]!==palavra[i]){cabe=false;break;}
-      coords.push([r,c]);
-    }
+      for(let i=0;i<palavra.length;i++){
+        const r=linha+i*dir[0];
+        const c=col+i*dir[1];
+        if(r<0||r>=tamanho||c<0||c>=tamanho){cabe=false;break;}
+        if(grid[r][c]!=""&&grid[r][c]!==palavra[i]){cabe=false;break;}
+        coords.push([r,c]);
+      }
 
-    if(cabe){
-      coords.forEach((pos,i)=>grid[pos[0]][pos[1]]=palavra[i]);
-      posicoesPalavras.push({palavra,posicoes:coords});
-      palavrasSelecionadas.push(palavra);
-      colocado=true;
+      if(cabe){
+        coords.forEach((pos,i)=>grid[pos[0]][pos[1]]=palavra[i]);
+        posicoesPalavras.push({palavra,posicoes:coords});
+        palavrasSelecionadas.push(palavra);
+        colocado=true;
+        break;
+      }
     }
   }
 }
@@ -120,7 +126,7 @@ function verificarRespostas(){
   resultadoEl.innerText=`Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if(acertos===palavrasSelecionadas.length){
-    // acertou 100%
+    // Acertou todas → próxima rodada ou nível
     if(rodadaNivel<totalRodadasPorNivel){
       resultadoEl.innerText+=`\nParabéns! Próximo caça-palavras do nível ${nivelAtual}`;
       iniciarRodada();
@@ -142,6 +148,9 @@ function verificarRespostas(){
       }
     }
   } else {
+    // Errou → não trava, apenas mostra a mensagem
     resultadoEl.innerText+="\nVocê precisa acertar todas as palavras para avançar!";
+    // Remove seleção para o jogador tentar novamente
+    document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
   }
 }
