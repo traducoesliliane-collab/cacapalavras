@@ -1,0 +1,75 @@
+body {
+  font-family: Arial, sans-serif;
+  background: url("halloween-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #ff7518;
+  text-shadow: 2px 2px 4px black;
+  margin-bottom: 20px;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #5c2a9d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background-color: #7d3fc1;
+}
+
+#grid {
+  display: grid;
+  justify-content: center;
+  gap: 2px;
+  margin: 20px auto;
+  max-width: 90vw;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0,0,0,0.7);
+  border: 1px solid #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.cell.selected {
+  background-color: #ff7518;
+  color: black;
+}
+
+#resultado {
+  font-size: 1.2em;
+  margin-top: 15px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px black;
+}
+
+#statusNivel, #statusRodada {
+  font-size: 1.1em;
+  margin: 5px 0;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+}

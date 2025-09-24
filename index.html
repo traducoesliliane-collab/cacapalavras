@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caça Palavras das Crows</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Caça Palavras das Crows 🎃</h1>
+
+  <div id="menu">
+    <button id="btnStart" onclick="começarJogo()">Começar</button>
+  </div>
+
+  <p id="statusNivel"></p>
+  <p id="statusRodada"></p>
+  <p id="palavrasRestantes"></p>
+
+  <div id="grid" class="grid"></div>
+
+  <button id="btnVerificar" onclick="verificarRespostas()" style="display:none;">Enviar Resposta</button>
+
+  <p id="resultado"></p>
+
+  <button id="btnReplay" onclick="window.location.reload()" style="display:none;">
+    Jogar Novamente
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
