@@ -1,6 +1,7 @@
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #19191a;
+  background: url('halloween-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: #fff;
   text-align: center;
   margin: 0;
@@ -11,6 +12,7 @@ h1 {
   margin: 25px 0 10px 0;
   font-size: 2.2em;
   letter-spacing: 3px;
+  text-shadow: 2px 2px #000;
 }
 
 #menu {
@@ -37,6 +39,7 @@ button:hover {
   margin: 8px 0;
   font-size: 1.15em;
   letter-spacing: 1.5px;
+  text-shadow: 1px 1px #000;
 }
 
 #grid {
@@ -50,7 +53,7 @@ button:hover {
 .cell {
   width: 40px;
   height: 40px;
-  background: #232325;
+  background: rgba(0,0,0,0.5);
   color: #fff;
   border-radius: 6px;
   border: 1.5px solid #444;
@@ -63,8 +66,8 @@ button:hover {
   transition: background 0.2s, color 0.2s;
 }
 .cell.selected {
-  background: #ff9800;
-  color: #19191a;
+  background: orange;
+  color: #000;
   font-weight: bold;
   border-color: #ff9800;
 }
