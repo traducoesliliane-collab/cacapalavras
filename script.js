@@ -19,7 +19,7 @@ const rodadasFixas = {
       { palavra: "OSSOS", direcao: [1,0], inicio: [3,7] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [7,0] },
       { palavra: "BRUXA", direcao: [0,1], inicio: [9,0] },
-      { palavra: "MEDO", direcao: [0,1], inicio: [8,1] }
+      { palavra: "MEDO", direcao: [0,1], inicio: [8,5] }
     ],
     [
       { palavra: "ZUMBI", direcao: [1,0], inicio: [0,8] },
@@ -154,3 +154,4 @@ function proximaRodada() {
 }
 
 window.onload = comecarJogo;
+
