@@ -92,14 +92,14 @@ const rodadasFixas = {
   ]
 };
 
-let let grid = [];
+let grid = [];
 let palavrasSelecionadas = [];
 let posicoesPalavras = [];
 let nivelAtual = "facil";
 let rodadaNivel = 0;
 let totalRodadasPorNivel = 3;
 
-function começarJogo() {
+function comecarJogo() {
   document.getElementById("menu").style.display = "none";
   document.getElementById("btnVerificar").style.display = "inline-block";
   document.getElementById("btnProximaRodada").style.display = "none";
