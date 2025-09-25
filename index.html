@@ -2,86 +2,22 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Caça-Palavra das Crows</title>
+  <title>Caça-Palavras</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      background: url('halloween-bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      margin-top: 20px;
-      font-size: 2em;
-      text-shadow: 2px 2px #000;
-    }
-    #grid {
-      display: grid;
-      gap: 2px;
-      margin: 20px auto;
-      width: fit-content;
-    }
-    .cell {
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      border: 1px solid #fff;
-      cursor: pointer;
-      user-select: none;
-      font-weight: bold;
-      font-size: 18px;
-      background-color: rgba(0,0,0,0.5);
-      transition: background 0.2s;
-    }
-    .cell.selected {
-      background-color: orange;
-      color: #000;
-    }
-    #menu {
-      margin-top: 50px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 10px;
-      cursor: pointer;
-      background-color: purple;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-    }
-    #resultado, #palavrasRestantes, #statusNivel, #statusRodada {
-      margin-top: 10px;
-      font-size: 18px;
-      text-shadow: 1px 1px #000;
-      white-space: pre-line; /* para quebrar linha \n */
-    }
-  </style>
 </head>
 <body>
-  <h1>Caça-Palavra das Crows</h1>
-
+  <h1>Caça-Palavras</h1>
   <div id="menu">
-    <button onclick="começarJogo()">Começar</button>
+    <button onclick="comecarJogo()">Começar</button>
   </div>
-
   <div id="statusNivel"></div>
   <div id="statusRodada"></div>
   <div id="palavrasRestantes"></div>
-
   <div id="grid"></div>
-
   <div id="resultado"></div>
-
   <button id="btnVerificar" onclick="verificarRespostas()" style="display:none;">Enviar Resposta</button>
   <button id="btnProximaRodada" onclick="proximaRodada()" style="display:none;">Próxima Rodada</button>
   <button id="btnReplay" onclick="window.location.reload()" style="display:none;">Jogar Novamente</button>
-
   <script src="script.js"></script>
 </body>
 </html>
