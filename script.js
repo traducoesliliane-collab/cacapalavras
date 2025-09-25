@@ -99,11 +99,11 @@ let nivelAtual = "facil";
 let rodadaNivel = 0;
 let totalRodadasPorNivel = 3;
 
-// Inicia o jogo, resetando variáveis e ocultando/mostrando botões
 function comecarJogo() {
   rodadaNivel = 0;
   nivelAtual = "facil";
   document.getElementById("btnVerificar").style.display = "inline-block";
+  document.getElementById("btnVerificar").disabled = false;
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
   document.getElementById("btnTenteNovamente").style.display = "none";
@@ -111,7 +111,6 @@ function comecarJogo() {
   iniciarRodada();
 }
 
-// Monta o grid e atualiza as informações de rodada/nivel
 function iniciarRodada() {
   let tamanho = getGridSize(nivelAtual);
   preencherGradeFixa(nivelAtual, rodadaNivel, tamanho);
@@ -121,11 +120,13 @@ function iniciarRodada() {
   document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel + 1} / ${totalRodadasPorNivel}`;
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
-  document.getElementById("btnVerificar").style.display = "inline-block";
   document.getElementById("btnTenteNovamente").style.display = "none";
+  // Reset do botão enviar resposta
+  const btnVerificar = document.getElementById("btnVerificar");
+  btnVerificar.disabled = false;
+  btnVerificar.style.display = "inline-block";
 }
 
-// Preenche a grade com palavras fixas e letras aleatórias
 function preencherGradeFixa(nivel, rodada, tamanho) {
   grid = Array.from({ length: tamanho }, () => Array(tamanho).fill(""));
   palavrasSelecionadas = [];
@@ -184,7 +185,6 @@ function preencherGradeFixa(nivel, rodada, tamanho) {
   renderizarGrade(tamanho);
 }
 
-// Preenche espaços vazios com letras aleatórias
 function preencherLetrasAleatorias(tamanho) {
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (let r = 0; r < tamanho; r++) {
@@ -194,7 +194,6 @@ function preencherLetrasAleatorias(tamanho) {
   }
 }
 
-// Renderiza a grade na tela
 function renderizarGrade(tamanho) {
   const container = document.getElementById("grid");
   container.innerHTML = "";
@@ -212,7 +211,6 @@ function renderizarGrade(tamanho) {
   }
 }
 
-// Verifica se o usuário acertou todas as palavras
 function verificarRespostas() {
   const btn = document.getElementById("btnVerificar");
   btn.disabled = true;
@@ -241,18 +239,15 @@ function verificarRespostas() {
     resultadoEl.innerText += "\nVocê precisa acertar todas as palavras para avançar!";
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
     document.getElementById("btnTenteNovamente").style.display = "inline-block";
-    btn.disabled = false;
+    btn.disabled = false; // reabilita se errou
   }
 }
 
-// Avança para a próxima rodada ou nível
 function proximaRodada() {
   rodadaNivel++;
-  // Se ainda há rodadas neste nível
   if (rodadaNivel < totalRodadasPorNivel) {
     iniciarRodada();
   } else {
-    // Avança para o próximo nível ou termina o jogo
     if (nivelAtual === "facil") nivelAtual = "medio";
     else if (nivelAtual === "medio") nivelAtual = "dificil";
     else nivelAtual = "fim";
@@ -269,5 +264,4 @@ function proximaRodada() {
   }
 }
 
-// Inicia o jogo ao carregar a página
 window.onload = comecarJogo;
