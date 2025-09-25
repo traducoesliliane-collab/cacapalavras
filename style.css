@@ -1,90 +1,77 @@
 body {
-  font-family: Arial, sans-serif;
-  background: url("halloween-bg.jpg") no-repeat center center fixed;
-  background-size: cover;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #19191a;
   color: #fff;
   text-align: center;
-  padding: 20px;
   margin: 0;
+  padding: 0;
 }
 
 h1 {
+  margin: 25px 0 10px 0;
   font-size: 2.2em;
-  color: #ff7518;
-  text-shadow: 2px 2px 4px black;
-  margin-bottom: 20px;
+  letter-spacing: 3px;
+}
+
+#menu {
+  margin-bottom: 30px;
 }
 
 button {
-  margin: 5px;
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #5c2a9d;
-  color: white;
+  background: #ff9800;
+  color: #fff;
+  font-size: 1.1em;
   border: none;
+  padding: 12px 28px;
+  margin: 10px 5px;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s;
-  display: inline-block;
+  transition: background .2s;
+  font-weight: bold;
+}
+button:hover {
+  background: #ffa726;
 }
 
-button:hover {
-  transform: scale(1.05);
-  background-color: #7d3fc1;
+#statusNivel, #statusRodada, #palavrasRestantes, #resultado {
+  margin: 8px 0;
+  font-size: 1.15em;
+  letter-spacing: 1.5px;
 }
 
 #grid {
   display: grid;
   justify-content: center;
-  gap: 2px;
-  margin: 20px auto;
-  max-width: 90vw;
+  gap: 3px;
+  margin: 28px auto 20px auto;
+  max-width: 98vw;
 }
 
 .cell {
   width: 40px;
   height: 40px;
-  background-color: rgba(0,0,0,0.7);
-  border: 1px solid #666;
+  background: #232325;
+  color: #fff;
+  border-radius: 6px;
+  border: 1.5px solid #444;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: #fff;
+  font-size: 1.4em;
   cursor: pointer;
   user-select: none;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-  font-size: 18px;
+  transition: background 0.2s, color 0.2s;
 }
-
 .cell.selected {
-  background-color: #ff7518;
-  color: black;
+  background: #ff9800;
+  color: #19191a;
+  font-weight: bold;
+  border-color: #ff9800;
 }
 
 #resultado {
+  min-height: 35px;
+  margin-bottom: 15px;
   font-size: 1.2em;
-  margin-top: 15px;
   font-weight: bold;
-  text-shadow: 2px 2px 4px black;
-}
-
-#statusNivel, #statusRodada {
-  font-size: 1.1em;
-  margin: 5px 0;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px black;
-}
-
-#palavrasRestantes {
-  font-size: 1.1em;
-  margin: 10px 0;
-  text-shadow: 1px 1px #000;
-}
-
-#btnVerificar[style*="display:none"],
-#btnProximaRodada[style*="display:none"],
-#btnReplay[style*="display:none"] {
-  display: none !important;
 }
