@@ -19,7 +19,7 @@ const rodadasFixas = {
       { palavra: "OSSOS", direcao: [1,0], inicio: [3,7] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [7,0] },
       { palavra: "BRUXA", direcao: [0,1], inicio: [9,0] },
-      { palavra: "DRACULA", direcao: [0,1], inicio: [9,1] }
+      { palavra: "DRACULA", direcao: [0,1], inicio: [5,1] }
     ],
     [
       { palavra: "ZUMBI", direcao: [1,0], inicio: [0,8] },
@@ -112,10 +112,13 @@ function iniciarRodada() {
   document.getElementById("resultado").innerText = "";
   document.getElementById("statusNivel").innerText = `Nível: ${nivelAtual.charAt(0).toUpperCase() + nivelAtual.slice(1)}`;
   document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel + 1} / ${totalRodadasPorNivel}`;
+
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
-  document.getElementById("btnVerificar").style.display = "inline-block";
   document.getElementById("btnTenteNovamente").style.display = "none";
+
+  document.getElementById("btnVerificar").style.display = "inline-block";
+  document.getElementById("btnVerificar").disabled = false;
 }
 
 function preencherGradeFixa(nivel, rodada, tamanho) {
@@ -226,7 +229,4 @@ function proximaRodada() {
     } else {
       document.getElementById("resultado").innerText = "Parabéns! Você terminou todos os níveis!";
       document.getElementById("btnProximaRodada").style.display = "none";
-      document.getElementById("btnReplay").style.display = "inline-block";
-    }
-  }
-}
+      document.getElementById("btnReplay").style.display = "inline
