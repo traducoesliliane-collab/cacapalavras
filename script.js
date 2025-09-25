@@ -18,7 +18,7 @@ const rodadasFixas = {
       { palavra: "TERROR", direcao: [0,1], inicio: [0,2] },
       { palavra: "OSSOS", direcao: [1,0], inicio: [3,7] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [7,0] },
-      { palavra: "BRUXA", direcao: [1,1], inicio: [0,5] },
+      { palavra: "BRUXA", direcao: [0,1], inicio: [9,0] },
       { palavra: "DRACULA", direcao: [0,1], inicio: [9,1] }
     ],
     [
@@ -92,7 +92,7 @@ const rodadasFixas = {
   ]
 };
 
-let grid = [];
+let let grid = [];
 let palavrasSelecionadas = [];
 let posicoesPalavras = [];
 let nivelAtual = "facil";
@@ -110,14 +110,12 @@ function começarJogo() {
 }
 
 function iniciarRodada() {
-  rodadaNivel++;
   let tamanho = getGridSize(nivelAtual);
-  preencherGradeFixa(nivelAtual, rodadaNivel - 1, tamanho);
-
+  preencherGradeFixa(nivelAtual, rodadaNivel, tamanho);
   document.getElementById("palavrasRestantes").innerText = `Palavras: ${palavrasSelecionadas.join(", ")}`;
   document.getElementById("resultado").innerText = "";
   document.getElementById("statusNivel").innerText = `Nível: ${nivelAtual.charAt(0).toUpperCase() + nivelAtual.slice(1)}`;
-  document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel} / ${totalRodadasPorNivel}`;
+  document.getElementById("statusRodada").innerText = `Rodada: ${rodadaNivel + 1} / ${totalRodadasPorNivel}`;
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
   document.getElementById("btnVerificar").style.display = "inline-block";
@@ -138,7 +136,11 @@ function preencherGradeFixa(nivel, rodada, tamanho) {
       let r = x + i * dx;
       let c = y + i * dy;
       if (r < 0 || r >= tamanho || c < 0 || c >= tamanho) {
-        console.error(`Palavra "${palavra}" sai do grid em [${r},${c}] no nível ${nivel}, rodada ${rodada + 1}.`);
+        cabe = false;
+        break;
+      }
+      // Checagem de sobreposição de letra diferente!
+      if (grid[r][c] !== "" && grid[r][c] !== palavra[i]) {
         cabe = false;
         break;
       }
@@ -201,7 +203,7 @@ function verificarRespostas() {
   resultadoEl.innerText = `Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if (acertos === palavrasSelecionadas.length) {
-    if (nivelAtual === "fim" || (nivelAtual === "dificil" && rodadaNivel === totalRodadasPorNivel)) {
+    if (nivelAtual === "fim" || (nivelAtual === "dificil" && rodadaNivel === totalRodadasPorNivel - 1)) {
       resultadoEl.innerText += "\nParabéns! Você terminou todos os níveis!";
       btn.style.display = "none";
       document.getElementById("btnReplay").style.display = "inline-block";
@@ -219,6 +221,7 @@ function verificarRespostas() {
 }
 
 function proximaRodada() {
+  rodadaNivel++;
   if (rodadaNivel < totalRodadasPorNivel) {
     iniciarRodada();
   } else {
@@ -226,14 +229,12 @@ function proximaRodada() {
     else if (nivelAtual === "medio") nivelAtual = "dificil";
     else nivelAtual = "fim";
     rodadaNivel = 0;
-    if (nivelAtual === "fim") {
+    if (nivelAtual !== "fim") {
+      iniciarRodada();
+    } else {
       document.getElementById("resultado").innerText = "Parabéns! Você terminou todos os níveis!";
       document.getElementById("btnProximaRodada").style.display = "none";
       document.getElementById("btnReplay").style.display = "inline-block";
-    } else {
-      iniciarRodada();
     }
   }
 }
-
-
