@@ -19,7 +19,7 @@ const rodadasFixas = {
       { palavra: "OSSOS", direcao: [1,0], inicio: [3,7] },
       { palavra: "MORCEGO", direcao: [0,1], inicio: [7,0] },
       { palavra: "BRUXA", direcao: [0,1], inicio: [9,0] },
-      { palavra: "DRACULA", direcao: [0,1], inicio: [5,1] }
+      { palavra: "MEDO", direcao: [0,1], inicio: [8,1] }
     ],
     [
       { palavra: "ZUMBI", direcao: [1,0], inicio: [0,8] },
@@ -28,68 +28,8 @@ const rodadasFixas = {
       { palavra: "CRIPTA", direcao: [1,0], inicio: [4,0] },
       { palavra: "MORTE", direcao: [1,1], inicio: [0,2] }
     ]
-  ],
-  medio: [
-    [
-      { palavra: "MALDICAO", direcao: [0,1], inicio: [0,0] },
-      { palavra: "MONSTRO", direcao: [1,1], inicio: [4,2] },
-      { palavra: "FANTASMA", direcao: [1,0], inicio: [7,5] },
-      { palavra: "BRUXARIA", direcao: [0,1], inicio: [10,0] },
-      { palavra: "ABOBORA", direcao: [1,0], inicio: [2,7] },
-      { palavra: "SOMBRA", direcao: [1,1], inicio: [6,4] },
-      { palavra: "LENDA", direcao: [1,0], inicio: [14,7] }
-    ],
-    [
-      { palavra: "LOBO", direcao: [1,1], inicio: [0,5] },
-      { palavra: "CALDEIRAO", direcao: [0,1], inicio: [6,0] },
-      { palavra: "TUMULO", direcao: [1,0], inicio: [9,3] },
-      { palavra: "OSSOS", direcao: [0,1], inicio: [14,4] },
-      { palavra: "VELA", direcao: [1,0], inicio: [13,10] },
-      { palavra: "FANTASMA", direcao: [1,1], inicio: [8,8] },
-      { palavra: "ABISMO", direcao: [0,1], inicio: [12,13] }
-    ],
-    [
-      { palavra: "ZUMBI", direcao: [0,1], inicio: [2,0] },
-      { palavra: "SANGUE", direcao: [1,0], inicio: [4,12] },
-      { palavra: "TUMULO", direcao: [1,1], inicio: [6,2] },
-      { palavra: "MONSTRO", direcao: [0,1], inicio: [13,5] },
-      { palavra: "ESPANTO", direcao: [1,0], inicio: [11,0] },
-      { palavra: "BRUXA", direcao: [0,1], inicio: [9,9] },
-      { palavra: "ABOBORA", direcao: [1,1], inicio: [3,11] }
-    ]
-  ],
-  dificil: [
-    [
-      { palavra: "CALDEIRAO", direcao: [1,1], inicio: [0,0] },
-      { palavra: "LOBO", direcao: [0,1], inicio: [15,0] },
-      { palavra: "SOMBRA", direcao: [1,0], inicio: [4,9] },
-      { palavra: "ALMAS", direcao: [0,1], inicio: [11,12] },
-      { palavra: "ABOBORA", direcao: [1,0], inicio: [12,4] },
-      { palavra: "TUMULO", direcao: [1,1], inicio: [7,6] },
-      { palavra: "MONSTRO", direcao: [0,1], inicio: [16,6] },
-      { palavra: "ASSOMBRO", direcao: [1,0], inicio: [2,14] }
-    ],
-    [
-      { palavra: "FANTASMA", direcao: [1,1], inicio: [1,3] },
-      { palavra: "ESPIRITO", direcao: [0,1], inicio: [0,12] },
-      { palavra: "CALDEIRAO", direcao: [1,0], inicio: [13,5] },
-      { palavra: "ABOBORA", direcao: [0,1], inicio: [10,0] },
-      { palavra: "TUMULO", direcao: [1,1], inicio: [6,9] },
-      { palavra: "LOBO", direcao: [1,0], inicio: [2,8] },
-      { palavra: "TREVAS", direcao: [0,1], inicio: [15,3] },
-      { palavra: "ALMAS", direcao: [1,1], inicio: [14,7] }
-    ],
-    [
-      { palavra: "FANTASMA", direcao: [1,1], inicio: [8,3] },
-      { palavra: "ESPIRITO", direcao: [0,1], inicio: [13,0] },
-      { palavra: "CALDEIRAO", direcao: [1,0], inicio: [16,6] },
-      { palavra: "ABOBORA", direcao: [0,1], inicio: [16,10] },
-      { palavra: "TUMULO", direcao: [1,1], inicio: [12,5] },
-      { palavra: "LOBO", direcao: [0,1], inicio: [8,14] },
-      { palavra: "ASSOMBRO", direcao: [1,0], inicio: [3,0] },
-      { palavra: "MORTE", direcao: [0,1], inicio: [10,14] }
-    ]
   ]
+  // Você pode adicionar as rodadas médio e difícil aqui também...
 };
 
 let grid = [];
@@ -115,7 +55,6 @@ function iniciarRodada() {
 
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
-  document.getElementById("btnTenteNovamente").style.display = "none";
 
   document.getElementById("btnVerificar").style.display = "inline-block";
   document.getElementById("btnVerificar").disabled = false;
@@ -201,16 +140,8 @@ function verificarRespostas() {
   resultadoEl.innerText = `Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if (acertos === palavrasSelecionadas.length) {
-    resultadoEl.innerText += "\nParabéns! Avançando para próxima rodada...";
-    btn.style.display = "none";
-    document.getElementById("btnProximaRodada").style.display = "none";
-    document.getElementById("btnReplay").style.display = "none";
-    document.getElementById("btnTenteNovamente").style.display = "none";
-    setTimeout(proximaRodada, 1500);
+    setTimeout(proximaRodada, 1000);
   } else {
-    resultadoEl.innerText += "\nVocê precisa acertar todas as palavras para avançar!";
-    document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
-    btn.disabled = false;
     document.getElementById("btnTenteNovamente").style.display = "inline-block";
   }
 }
@@ -219,14 +150,7 @@ function proximaRodada() {
   rodadaNivel++;
   if (rodadaNivel < totalRodadasPorNivel) {
     iniciarRodada();
-  } else {
-    if (nivelAtual === "facil") nivelAtual = "medio";
-    else if (nivelAtual === "medio") nivelAtual = "dificil";
-    else nivelAtual = "fim";
-    rodadaNivel = 0;
-    if (nivelAtual !== "fim") {
-      iniciarRodada();
-    } else {
-      document.getElementById("resultado").innerText = "Parabéns! Você terminou todos os níveis!";
-      document.getElementById("btnProximaRodada").style.display = "none";
-      document.getElementById("btnReplay").style.display = "inline
+  }
+}
+
+window.onload = comecarJogo;
