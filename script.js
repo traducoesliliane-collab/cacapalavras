@@ -100,10 +100,6 @@ let rodadaNivel = 0;
 let totalRodadasPorNivel = 3;
 
 function comecarJogo() {
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("btnVerificar").style.display = "inline-block";
-  document.getElementById("btnProximaRodada").style.display = "none";
-  document.getElementById("btnReplay").style.display = "none";
   rodadaNivel = 0;
   nivelAtual = "facil";
   iniciarRodada();
@@ -119,6 +115,7 @@ function iniciarRodada() {
   document.getElementById("btnProximaRodada").style.display = "none";
   document.getElementById("btnReplay").style.display = "none";
   document.getElementById("btnVerificar").style.display = "inline-block";
+  document.getElementById("btnTenteNovamente").style.display = "none";
 }
 
 function preencherGradeFixa(nivel, rodada, tamanho) {
@@ -139,7 +136,6 @@ function preencherGradeFixa(nivel, rodada, tamanho) {
         cabe = false;
         break;
       }
-      // Checagem de sobreposição de letra diferente!
       if (grid[r][c] !== "" && grid[r][c] !== palavra[i]) {
         cabe = false;
         break;
@@ -160,7 +156,7 @@ function preencherLetrasAleatorias(tamanho) {
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (let r = 0; r < tamanho; r++) {
     for (let c = 0; c < tamanho; c++) {
-      if (grid[r][c] == "") grid[r][c] = letras[Math.floor(Math.random() * letras.length)];
+      if (grid[r][c] === "") grid[r][c] = letras[Math.floor(Math.random() * letras.length)];
     }
   }
 }
@@ -191,7 +187,6 @@ function verificarRespostas() {
   ).map(cell => [parseInt(cell.dataset.row), parseInt(cell.dataset.col)]);
 
   let acertos = 0;
-
   posicoesPalavras.forEach(p => {
     const todasMarcadas = p.posicoes.every(coord =>
       selecionadas.some(sel => sel[0] === coord[0] && sel[1] === coord[1])
@@ -203,20 +198,17 @@ function verificarRespostas() {
   resultadoEl.innerText = `Você acertou ${acertos} de ${palavrasSelecionadas.length} palavras!`;
 
   if (acertos === palavrasSelecionadas.length) {
-    if (nivelAtual === "fim" || (nivelAtual === "dificil" && rodadaNivel === totalRodadasPorNivel - 1)) {
-      resultadoEl.innerText += "\nParabéns! Você terminou todos os níveis!";
-      btn.style.display = "none";
-      document.getElementById("btnReplay").style.display = "inline-block";
-      document.getElementById("btnProximaRodada").style.display = "none";
-    } else {
-      resultadoEl.innerText += `\nParabéns! Clique em "Próxima Rodada" para continuar!`;
-      btn.style.display = "none";
-      document.getElementById("btnProximaRodada").style.display = "inline-block";
-    }
+    resultadoEl.innerText += "\nParabéns! Avançando para próxima rodada...";
+    btn.style.display = "none";
+    document.getElementById("btnProximaRodada").style.display = "none";
+    document.getElementById("btnReplay").style.display = "none";
+    document.getElementById("btnTenteNovamente").style.display = "none";
+    setTimeout(proximaRodada, 1500);
   } else {
     resultadoEl.innerText += "\nVocê precisa acertar todas as palavras para avançar!";
     document.querySelectorAll(".cell.selected").forEach(cell => cell.classList.remove("selected"));
     btn.disabled = false;
+    document.getElementById("btnTenteNovamente").style.display = "inline-block";
   }
 }
 
